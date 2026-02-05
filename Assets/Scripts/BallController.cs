@@ -84,13 +84,14 @@ public class BallController : MonoBehaviour
     {
         Transform myTransform = GetComponent<Transform>();
         UnityEngine.Vector3 newPos = new UnityEngine.Vector3( 
-                myTransform.position.x + Random.Range(spawnRange*-1,spawnRange), 
-                myTransform.position.y + Random.Range(0,spawnRange), 
-                myTransform.position.z);
+                myTransform.position.x , 
+                myTransform.position.y, 
+                myTransform.position.z + Random.Range(spawnRange*-1,spawnRange));
         GameObject newBall = Instantiate(ballPrefab, newPos, UnityEngine.Quaternion.identity);
         currentBall = newBall;
         Rigidbody rb = newBall.GetComponent<Rigidbody>();
-        Vector3 force = new Vector3(50, 0f, Random.Range(spawnRange*-10,spawnRange*10));
+        Vector3 force = new Vector3(25, 0f, Random.Range(spawnRange*-10,spawnRange*10));
+        // rb.AddForce(force, ForceMode.Impulse);
         rb.AddForce(force, ForceMode.Impulse);
     }
 
@@ -98,14 +99,15 @@ public class BallController : MonoBehaviour
     {
         Transform myTransform = GetComponent<Transform>();
         UnityEngine.Vector3 newPos = new UnityEngine.Vector3( 
-                myTransform.position.x + Random.Range(spawnRange*-1,spawnRange), 
-                myTransform.position.y + Random.Range(0,spawnRange), 
-                myTransform.position.z);
+                myTransform.position.x, 
+                myTransform.position.y, 
+                myTransform.position.z + Random.Range(spawnRange*-1,spawnRange));
         GameObject newBall = Instantiate(ballPrefab, newPos, UnityEngine.Quaternion.identity);
         currentBall = newBall;
         Rigidbody rb = newBall.GetComponent<Rigidbody>();
-        Vector3 force = new Vector3(-50, 0f, Random.Range(spawnRange*-10,spawnRange*10));
+        Vector3 force = new Vector3(-25, 0f, Random.Range(spawnRange*-10,spawnRange*10));
         rb.AddForce(force, ForceMode.Impulse);
+        // rb.AddForce(force, ForceMode.Impulse);
     }
 
     public void leftScoreUp()
@@ -113,8 +115,9 @@ public class BallController : MonoBehaviour
         leftScore += 1;
         string scoreString = $"Score: {leftScore}";
         leftScoreText.text = scoreString;
+        currentBall.GetComponent<Rigidbody>().linearVelocity = new Vector3(0f, 0f, 0f);
         Destroy(currentBall);
-        Invoke("spawn_ball_right", 3f);
+        Invoke("spawn_ball_right", .5f);
     }
 
     public void rightScoreUp()
@@ -122,7 +125,8 @@ public class BallController : MonoBehaviour
         rightScore += 1;
         string scoreString = $"Score: {rightScore}";
         rightScoreText.text = scoreString;
+        currentBall.GetComponent<Rigidbody>().linearVelocity = new Vector3(0f, 0f, 0f);
         Destroy(currentBall);
-        Invoke("spawn_ball_left", 3f);
+        Invoke("spawn_ball_left", .5f);
     }
 }

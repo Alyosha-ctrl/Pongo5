@@ -5,7 +5,10 @@ using UnityEngine;
 public class ball : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public float addSpeed = .1f;
+    public float addSpeed = 10f;
+
+
+    Rigidbody rb;
     void Start()
     {
         
@@ -18,12 +21,27 @@ public class ball : MonoBehaviour
     }
 
 
-
     void OnCollisionEnter(Collision other)
     {
+
+        Debug.Log("Calling Ball Collision");
+
         //Get the rigidbody here.
-        
-        UnityEngine.Vector3 velocity = new UnityEngine.Vector3(0f, addSpeed, 0f);
+        rb = GetComponent<Rigidbody>();
+
+        UnityEngine.Vector3 velocity = rb.linearVelocity;
+
+        velocity.x += addSpeed;
+        velocity.y += addSpeed;
+
+        velocity.x *= -1;
+        velocity.y *= -1;
+        velocity.z *= -1;
+
+        rb.linearVelocity = velocity;
+
+        // rb.AddForce(velocity, ForceMode.VelocityChange);
+
 
         //Add the velocity by addSpeed
         //rigid body.linear velocity
